@@ -1,1 +1,1 @@
-package candy
+package main
