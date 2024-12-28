@@ -8,7 +8,7 @@ import (
 )
 
 type Handler struct {
-	db data.PostStorage
+	DB data.PostStorage
 }
 
 type handleFunc func(w http.ResponseWriter, r *http.Request) error

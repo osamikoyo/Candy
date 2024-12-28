@@ -35,7 +35,7 @@ func (h Handler) ListenNewPosts(errors chan error) {
 	var ch chan data.Post
 	var cherr chan error
 
-	go h.db.Last(ch, cherr, wg, mux)
+	go h.DB.Last(ch, cherr, wg, mux)
 
 	for {
 		wg.Add(1)

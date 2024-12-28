@@ -3,16 +3,19 @@ package app
 import (
 	"candy/internal/config"
 	"candy/internal/data"
+	"candy/internal/handler"
 	"candy/pkg/loger"
 	"context"
 	"fmt"
+	"github.com/go-chi/chi/v5"
 	"net/http"
 )
 
 type App struct {
-	DB     *data.Database
-	Logger *loger.Logger
-	server *http.Server
+	DB      *data.Database
+	Logger  *loger.Logger
+	server  *http.Server
+	handler *handler.Handler
 }
 
 func Init() *App {
@@ -26,6 +29,7 @@ func Init() *App {
 		server: &http.Server{
 			Addr: fmt.Sprintf("%s:%d", cfg.Address, cfg.Port),
 		},
+		handler: &handler.Handler{DB: db},
 	}
 }
 
@@ -39,7 +43,11 @@ func (a *App) Run(ctx context.Context) error {
 		}
 	}()
 
+	r := chi.NewRouter()
+	a.server.Handler = r
+
 	a.Logger.Info().Msg("Starting the Server!! :3")
+	a.handler.RegisterHandlers(r)
 
 	if err := a.server.ListenAndServe(); err != nil {
 		return err
