@@ -19,5 +19,5 @@ func (h Handler) AddPostHandler(w http.ResponseWriter, r *http.Request) error {
 		return err
 	}
 
-	return h.db.Add(post)
+	return h.DB.Add(post)
 }
